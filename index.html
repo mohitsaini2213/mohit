@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust | One Road, Two Worlds</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0a192f;
+            --teal: #64ffda;
+            --slate: #8892b0;
+            --white: #e6f1ff;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--navy);
+            color: var(--white);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- PERSISTENT NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--teal);
+            letter-spacing: 1px;
+        }
+
+        /* --- THE ROAD & ANIMATED CAR --- */
+        #journey-track {
+            position: fixed;
+            bottom: 50px;
+            width: 90%;
+            left: 5%;
+            height: 2px;
+            background: var(--glass);
+            z-index: 999;
+        }
+
+        #car-container {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            transition: transform 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        .car-icon {
+            font-size: 30px;
+            filter: drop-shadow(0 0 10px var(--teal));
+        }
+
+        .road-label {
+            position: absolute;
+            top: 15px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--teal);
+            opacity: 0.5;
+        }
+
+        /* --- SECTIONS --- */
+        section {
+            min-height: 100vh;
+            padding: 100px 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span { color: var(--teal); }
+
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: var(--slate);
+        }
+
+        /* --- PIT STOP CARDS --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            background: rgba(100, 255, 218, 0.05);
+            transform: translateY(-10px);
+        }
+
+        .card i {
+            font-size: 2rem;
+            color: var(--teal);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* --- DUAL PATH SECTION --- */
+        .split-view {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .path-box {
+            flex: 1;
+            padding: 60px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            border: 1px solid var(--glass);
+        }
+
+        .path-box h2 { color: var(--teal); margin-bottom: 15px; }
+
+        /* --- FOOTER STAMPS --- */
+        .stamp-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stamp {
+            padding: 20px 40px;
+            border: 2px dashed var(--teal);
+            border-radius: 15px;
+            text-align: center;
+            transform: rotate(-3deg);
+        }
+
+        /* --- BUTTON --- */
+        .btn {
+            margin-top: 40px;
+            padding: 18px 35px;
+            background: transparent;
+            border: 1px solid var(--teal);
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            width: fit-content;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" >WANDERLUST</div>
+        <div style="font-size: 0.8rem; color: var(--teal);">INBOUND & OUTBOUND TRAVEL</div>
+    </nav>
+
+    <!-- Animated Car Track -->
+    <div id="journey-track">
+        <div id="car-container">
+            <div class="car-icon">🏎️</div>
+        </div>
+        <div class="road-label">Your Journey Progress</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="reveal active">
+            <h1>One Road,<br><span>Two Worlds.</span></h1>
+            <p class="tagline">Whether it’s the hidden gems of our own backyard or the iconic skylines across the ocean, we fuel your story. From Indeusvele soul-searching to International bucket-list breaking.</p>
+            <a href="#explore" class="btn">START THE ENGINE</a>
+        </div>
+    </section>
+
+    <!-- Pit Stop Section -->
+    <section id="explore">
+        <div class="reveal">
+            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">The Pit Stop</h2>
+            <p style="color: var(--teal);">Why thousands of explorers choose our lane.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <i>📍</i>
+                    <h3>Curated by Locals</h3>
+                    <p>Domestic trips designed by those who live the culture, not just visit it.</p>
+                </div>
+                <div class="card">
+                    <i>⚙️</i>
+                    <h3>Seamless Mobility</h3>
+                    <p>We handle the gears (paperwork & transfers) so you can enjoy the view.</p>
+                </div>
+                <div class="card">
+                    <i>💎</i>
+                    <h3>Fair-Price</h3>
+                    <p>No hidden fuel charges. Transparent pricing from 50km to 5,000km.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dual Path Section -->
+    <section>
+        <div class="reveal">
+            <h2 style="text-align: center; margin-bottom: 40px;">Choose Your Direction</h2>
+            <div class="split-view">
+                <div class="path-box">
+                    <h3>Indeusvele</h3>
+                    <p><strong>"Rediscover your roots."</strong></p>
+                    <p>From misty mountains to golden coasts, we bring you closer to the spirit of home.</p>
+                </div>
+                <div class="path-box" style="border-color: var(--slate);">
+                    <h3>International</h3>
+                    <p><strong>"Expand your horizons."</strong></p>
+                    <p>Walk Europe, dive in Maldives, or get lost in the neon lights of Tokyo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <section style="text-align: center;">
+        <div class="reveal">
+            <h2 style="font-size: 3rem; margin-bottom: 50px;">Ready to put your life in gear?</h2>
+            <div class="stamp-grid">
+                <div class="stamp"><h4>24/7 SUPPORT</h4><p>Global Assistance</p></div>
+                <div class="stamp" style="transform: rotate(4deg);"><h4>10K+ TRIPS</h4><p>Verified Memories</p></div>
+                <div class="stamp"><h4>SECURE</h4><p>Encrypted Booking</p></div>
+            </div>
+            <p style="margin-top: 100px; color: var(--slate); font-size: 0.8rem;">© 2026 WANDERLUST TRAVEL CO. | ALL ROADS LEAD TO ADVENTURE</p>
+        </div>
+    </section>
+
+    <script>
+        // Car Movement Logic
+        window.onscroll = function() {
+            const car = document.getElementById("car-container");
+            const scrollPercent = (document.documentElement.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+            
+            // Calculate movement
+            const moveX = scrollPercent * (window.innerWidth * 0.85);
+            car.style.transform = `translateX(${moveX}px)`;
+
+            // Reveal Animation Logic
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(windowReveal => {
+                const windowHeight = window.innerHeight;
+                const revealTop = windowReveal.getBoundingClientRect().top;
+                const revealPoint = 150;
+
+                if (revealTop < windowHeight - revealPoint) {
+                    windowReveal.classList.add("active");
+                }
+            });
+        };
+    </script>
+</body>
+</html>
